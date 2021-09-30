@@ -4,10 +4,10 @@ defmodule ExfileImagemagick.Mixfile do
   def project do
     [
       app: :exfile_imagemagick,
-      version: "0.1.5",
+      version: "0.1.6",
       elixir: "~> 1.2",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: [
         extras: ["README.md"]
@@ -15,9 +15,9 @@ defmodule ExfileImagemagick.Mixfile do
       package: package(),
       description: description(),
       aliases: [
-        "publish": [&git_tag/1, "hex.publish", "hex.docs"]
+        publish: [&git_tag/1, "hex.publish", "hex.docs"]
       ]
-   ]
+    ]
   end
 
   def application do
@@ -32,7 +32,7 @@ defmodule ExfileImagemagick.Mixfile do
 
   defp deps do
     [
-      {:exfile, "~> 0.3.1"},
+      {:exfile, github: "sreecodeslayer/exfile", ref: "bump-to-ecto-3"},
       {:poolboy, "~> 1.5.1"},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev}
@@ -58,13 +58,16 @@ defmodule ExfileImagemagick.Mixfile do
   end
 
   defp git_tag(_args) do
-    version_tag = case Version.parse(project()[:version]) do
-      {:ok, %Version{pre: []}} ->
-        "v" <> project()[:version]
-      _ ->
-        raise "Version should be a release version."
-    end
-    System.cmd "git", ["tag", "-a", version_tag, "-m", "Release #{version_tag}"]
-    System.cmd "git", ["push", "--tags"]
+    version_tag =
+      case Version.parse(project()[:version]) do
+        {:ok, %Version{pre: []}} ->
+          "v" <> project()[:version]
+
+        _ ->
+          raise "Version should be a release version."
+      end
+
+    System.cmd("git", ["tag", "-a", version_tag, "-m", "Release #{version_tag}"])
+    System.cmd("git", ["push", "--tags"])
   end
 end
