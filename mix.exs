@@ -25,7 +25,8 @@ defmodule ExfileImagemagick.Mixfile do
       mod: {ExfileImagemagick, []},
       applications: [
         :logger,
-        :exfile
+        :exfile,
+        :poolboy
       ]
     ]
   end
