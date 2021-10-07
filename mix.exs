@@ -33,7 +33,7 @@ defmodule ExfileImagemagick.Mixfile do
 
   defp deps do
     [
-      {:exfile, github: "sreecodeslayer/exfile", ref: "bump-to-ecto-3"},
+      {:exfile, github: "sreecodeslayer/exfile", ref: "upgrade-all"},
       {:poolboy, "~> 1.5.1"},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev}
